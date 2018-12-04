@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
   Copyright 2016 The Cartographer Authors
 
@@ -14,16 +15,40 @@
   limitations under the License.
 -->
 
-<package>
+<package format="2">
   <name>cartographer</name>
   <version>1.0.0</version>
-  <description>TODO(hrapp): Describe for catkin.</description>
-  <maintainer email="nobody@google.com">Google</maintainer>
+  <description>
+    Cartographer is a system that provides real-time simultaneous localization
+    and mapping (SLAM) in 2D and 3D across multiple platforms and sensor
+    configurations.
+  </description>
+  <maintainer email="cartographer-owners@googlegroups.com">
+    The Cartographer Authors
+  </maintainer>
   <license>Apache 2.0</license>
 
-  <run_depend>catkin</run_depend>
-  <buildtool_depend>cmake</buildtool_depend>
-  <build_depend>ceres_catkin</build_depend>
+  <url>https://github.com/googlecartographer/cartographer</url>
+
+  <author email="google-cartographer@googlegroups.com">
+    The Cartographer Authors
+  </author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>git</build_depend>
+  <build_depend>g++-static</build_depend>
+  <build_depend>google-mock</build_depend>
+  <build_depend>python-sphinx</build_depend>
+
+  <depend>boost</depend>
+  <depend>ceres-solver</depend>
+  <depend>eigen</depend>
+  <depend>libcairo2-dev</depend>
+  <depend>libgflags-dev</depend>
+  <depend>libgoogle-glog-dev</depend>
+  <depend>lua5.2-dev</depend>
+  <depend>protobuf-dev</depend>
 
   <export>
     <build_type>cmake</build_type>

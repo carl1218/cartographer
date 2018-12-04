@@ -16,16 +16,30 @@
 
 #include "cartographer/common/time.h"
 
+#include <time.h>
+#include <cerrno>
+#include <cstring>
 #include <string>
+
+#include "glog/logging.h"
 
 namespace cartographer {
 namespace common {
 
 Duration FromSeconds(const double seconds) {
-  return Duration(static_cast<int64>(1e7 * seconds));
+  return std::chrono::duration_cast<Duration>(
+      std::chrono::duration<double>(seconds));
 }
 
-double ToSeconds(const Duration duration) { return duration.count() * 1e-7; }
+double ToSeconds(const Duration duration) {
+  return std::chrono::duration_cast<std::chrono::duration<double>>(duration)
+      .count();
+}
+
+double ToSeconds(const std::chrono::steady_clock::duration duration) {
+  return std::chrono::duration_cast<std::chrono::duration<double>>(duration)
+      .count();
+}
 
 Time FromUniversal(const int64 ticks) { return Time(Duration(ticks)); }
 
@@ -36,8 +50,16 @@ std::ostream& operator<<(std::ostream& os, const Time time) {
   return os;
 }
 
-common::Duration FromMilliseconds(int64 milliseconds) {
-  return common::Duration(milliseconds * 10000);
+common::Duration FromMilliseconds(const int64 milliseconds) {
+  return std::chrono::duration_cast<Duration>(
+      std::chrono::milliseconds(milliseconds));
+}
+
+double GetThreadCpuTimeSeconds() {
+  struct timespec thread_cpu_time;
+  CHECK(clock_gettime(CLOCK_THREAD_CPUTIME_ID, &thread_cpu_time) == 0)
+      << std::strerror(errno);
+  return thread_cpu_time.tv_sec + 1e-9 * thread_cpu_time.tv_nsec;
 }
 
 }  // namespace common
